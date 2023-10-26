@@ -5,6 +5,7 @@ namespace bustub {
 
 template <class T>
 auto TrieStore::Get(std::string_view key) -> std::optional<ValueGuard<T>> {
+  
   // Pseudo-code:
   // (1) Take the root lock, get the root, and release the root lock. Don't lookup the value in the
   //     trie while holding the root lock.

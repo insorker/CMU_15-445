@@ -163,76 +163,7 @@ auto Trie::Remove(std::string_view key) const -> Trie {
 
   return Trie(new_root);
 
-
-  // std::shared_ptr<const TrieNode> root = this->root_;
-
-  // if (root == nullptr) { return *this; }
-
-  // auto it_cut = key.begin();
-  // for (auto it = key.begin() ; it < key.end(); it++) {
-  //   if (root->children_.count(*it) > 0) {
-  //     if (root->children_.size() == 1) {
-  //       it_cut = it_cut == nullptr ? it_cut : it;
-  //     }
-  //     else {
-  //       it_cut = nullptr;
-  //     }
-  //     root = root->children_.at(*it);
-  //   }
-  //   else {
-  //     return *this;
-  //   }
-  // }
-
-  // if (it_cut == key.begin()) {
-  //   return Trie(nullptr);
-  // }
-  
-  // std::shared_ptr<const TrieNode> new_root = nullptr;
-  // std::shared_ptr<TrieNode> new_node = nullptr;
-  // std::shared_ptr<TrieNode> new_node_prev = nullptr;
-  // std::shared_ptr<const TrieNode> old_node = nullptr;
-
-  // for (auto it = key.begin() - 1; it < key.end(); it++) {
-  //   if (it == key.begin() - 1) {
-  //     old_node = this->root_;
-  //   }
-  //   else {
-  //     old_node = old_node->children_.at(*it);
-  //   }
-
-  //   if (old_node->is_value_node_) {
-  //     auto old_node_with_value = std::static_pointer_cast<const TrieNodeWithValue<T>>(old_node);
-  //     new_node = std::make_shared<TrieNodeWithValue<T>>(old_node_with_value->value_);
-  //   }
-  //   else {
-  //     new_node = std::make_shared<TrieNode>();
-  //   }
-
-  //   if (old_node) {
-  //     for (auto [k, v] : old_node->children_) {
-  //       auto child = v->is_value_node_ ?
-  //         std::static_pointer_cast<const TrieNodeWithValue<T>>(v)->Clone() : v->Clone();
-  //       new_node->children_[k] = std::move(child);
-  //     }
-  //   }
-
-  //   if (it == key.begin() - 1) {
-  //     new_root = new_node;
-  //     new_node_prev = new_node;
-  //   }
-  //   else {
-  //     new_node_prev->children_[*it] = new_node;
-  //     new_node_prev = new_node;
-  //   }
-  // }
-
-  // return Trie(new_root);
-
-  // return root->is_value_node_ ? 
-  //   std::static_pointer_cast<const TrieNodeWithValue<T>>(root)->value_.get() : nullptr;
-
-  throw NotImplementedException("Trie::Remove is not implemented.");
+  // throw NotImplementedException("Trie::Remove is not implemented.");
 
   // You should walk through the trie and remove nodes if necessary. If the node doesn't contain a value any more,
   // you should convert it to `TrieNode`. If a node doesn't have children any more, you should remove it.
