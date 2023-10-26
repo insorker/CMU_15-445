@@ -43,6 +43,7 @@ auto Trie::Put(std::string_view key, T value) const -> Trie {
   std::shared_ptr<TrieNode> new_node = nullptr;
   std::shared_ptr<TrieNode> new_node_prev = nullptr;
   std::shared_ptr<const TrieNode> old_node = nullptr;
+  auto value_ptr = std::make_shared<T>(std::move(value));
 
   for (auto it = key.begin() - 1; it < key.end(); it++) {
     if (it == key.begin() - 1) {
@@ -52,7 +53,6 @@ auto Trie::Put(std::string_view key, T value) const -> Trie {
     }
 
     if (it == key.end() - 1) {
-      auto value_ptr = std::make_shared<T>(std::move(value));
       new_node = old_node ? new_node = std::make_shared<TrieNodeWithValue<T>>(old_node->children_, value_ptr)
                           : new_node = std::make_shared<TrieNodeWithValue<T>>(value_ptr);
     } else {
