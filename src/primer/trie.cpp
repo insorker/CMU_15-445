@@ -9,13 +9,14 @@ template <class T>
 auto Trie::Get(std::string_view key) const -> const T * {
   std::shared_ptr<const TrieNode> node = this->root_;
 
-  if (node == nullptr) { return nullptr; }
+  if (node == nullptr) {
+    return nullptr;
+  }
 
   for (auto &c : key) {
     if (node->children_.count(c)) {
       node = node->children_.at(c);
-    }
-    else {
+    } else {
       return nullptr;
     }
   }
@@ -46,29 +47,22 @@ auto Trie::Put(std::string_view key, T value) const -> Trie {
   for (auto it = key.begin() - 1; it < key.end(); it++) {
     if (it == key.begin() - 1) {
       old_node = this->root_;
+    } else if (old_node) {
+      old_node = old_node->children_.count(*it) > 0 ? old_node->children_.at(*it) : nullptr;
     }
-    else if (old_node) {
-      old_node = old_node->children_.count(*it) > 0 ?
-        old_node->children_.at(*it) : nullptr;
-    }
-    
+
     if (it == key.end() - 1) {
       auto value_ptr = std::make_shared<T>(std::move(value));
-      new_node = old_node ?
-        new_node = std::make_shared<TrieNodeWithValue<T>>(old_node->children_, value_ptr) :
-        new_node = std::make_shared<TrieNodeWithValue<T>>(value_ptr);
-    }
-    else {
-      new_node = old_node ?
-        old_node->Clone() :
-        std::make_shared<TrieNode>();
+      new_node = old_node ? new_node = std::make_shared<TrieNodeWithValue<T>>(old_node->children_, value_ptr)
+                          : new_node = std::make_shared<TrieNodeWithValue<T>>(value_ptr);
+    } else {
+      new_node = old_node ? old_node->Clone() : std::make_shared<TrieNode>();
     }
 
     if (it == key.begin() - 1) {
       new_root = new_node;
       new_node_prev = new_node;
-    }
-    else {
+    } else {
       new_node_prev->children_[*it] = new_node;
       new_node_prev = new_node;
     }
@@ -87,13 +81,14 @@ auto Trie::Remove(std::string_view key) const -> Trie {
   std::shared_ptr<const TrieNode> root = this->root_;
   auto it_cut = key.begin() - 1;
 
-  if (root == nullptr) { return *this; }
+  if (root == nullptr) {
+    return *this;
+  }
 
   for (auto it = key.begin(); it < key.end(); it++) {
     if (root->children_.count(*it) > 0) {
       root = root->children_.at(*it);
-    }
-    else {
+    } else {
       return *this;
     }
 
@@ -102,18 +97,15 @@ auto Trie::Remove(std::string_view key) const -> Trie {
         if (it_cut == key.end()) {
           it_cut = it;
         }
-      }
-      else {
+      } else {
         it_cut = key.end();
       }
-    }
-    else {
+    } else {
       if (root->children_.empty()) {
         if (it_cut == key.end()) {
           it_cut = it;
         }
-      }
-      else {
+      } else {
         it_cut = key.end();
       }
     }
@@ -134,28 +126,20 @@ auto Trie::Remove(std::string_view key) const -> Trie {
 
     if (it == key.begin() - 1) {
       old_node = this->root_;
+    } else if (old_node) {
+      old_node = old_node->children_.count(*it) > 0 ? old_node->children_.at(*it) : nullptr;
     }
-    else if (old_node) {
-      old_node = old_node->children_.count(*it) > 0 ?
-        old_node->children_.at(*it) : nullptr;
-    }
-    
+
     if (it == key.end() - 1) {
-      new_node = old_node ?
-        new_node = std::make_shared<TrieNode>(old_node->children_) :
-        std::make_shared<TrieNode>();
-    }
-    else {
-      new_node = old_node ?
-        old_node->Clone() :
-        std::make_shared<TrieNode>();
+      new_node = old_node ? new_node = std::make_shared<TrieNode>(old_node->children_) : std::make_shared<TrieNode>();
+    } else {
+      new_node = old_node ? old_node->Clone() : std::make_shared<TrieNode>();
     }
 
     if (it == key.begin() - 1) {
       new_root = new_node;
       new_node_prev = new_node;
-    }
-    else {
+    } else {
       new_node_prev->children_[*it] = new_node;
       new_node_prev = new_node;
     }

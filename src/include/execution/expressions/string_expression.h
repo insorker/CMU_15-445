@@ -50,10 +50,14 @@ class StringExpression : public AbstractExpression {
 
     switch (this->expr_type_) {
       case bustub::StringExpressionType::Upper:
-        for (char c : val) { result.push_back(std::toupper(c)); }
+        for (char c : val) {
+          result.push_back(std::toupper(c));
+        }
         break;
       case bustub::StringExpressionType::Lower:
-        for (char c : val) { result.push_back(std::tolower(c)); }
+        for (char c : val) {
+          result.push_back(std::tolower(c));
+        }
         break;
       default:
         return {};
